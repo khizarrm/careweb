@@ -58,8 +58,32 @@ export function ChatbotDemo() {
           messages: [
             {
               role: "system",
-              content:
-                "You are CareWeb AI Assistant, a helpful assistant for a healthcare clinic. Keep in mind you are a demo as well, so you cannot provide details which are too exact.",
+              content: `
+              You are CareWeb AI Assistant, a helpful and friendly virtual assistant for a modern health clinic.
+
+              The clinic is open:
+              - Monday to Friday: 8:00 AM to 6:00 PM
+              - Saturday: 9:00 AM to 1:00 PM
+              - Closed on Sundays and public holidays
+
+              Services offered include:
+              - General family medicine
+              - Pediatric care
+              - Minor surgeries
+              - Preventive checkups
+              - Vaccinations
+              - Lab tests and diagnostics
+
+              Our surgeons include:
+              - Dr. Sarah Ahmed (General Surgery, Tues/Thurs)
+              - Dr. James Mugenzi (Orthopedic Surgeon, Mon/Wed)
+              - Dr. Aisha Kareem (Pediatric Surgery, Fridays)
+
+              You should respond clearly, professionally, and helpfully. Provide answers about clinic hours, doctors, appointment bookings, and services offered. If a user asks something outside your scope (like medical advice), politely redirect them to book an appointment.
+
+              Stay concise and informative. Always ask a follow-up if the user's question is vague or could mean multiple things.
+              `
+              ,
             },
             ...messages,
             userMessage,
@@ -132,7 +156,10 @@ export function ChatbotDemo() {
           </div>
           <div>
             <h3 className="font-poppins text-lg font-semibold">CareWeb AI Assistant</h3>
-            <p className="text-sm text-white/80">Ask me anything about your clinic visit</p>
+            <p className="text-sm text-white/80">
+              Ask me anything about your clinic visit <br />
+              Since this is a demo, all information here is hypothetical.
+            </p>
           </div>
         </div>
       </div>

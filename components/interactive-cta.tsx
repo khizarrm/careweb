@@ -155,16 +155,12 @@ export function InteractiveCTA() {
           </div>
 
           <div className="flex justify-center">
-          <Button
-            ref={buttonRef}
-            variant="outline"
-            onClick={() => window.location.href = buildMailtoLink()}
-            className="border-white/30 text-blue-600 bg-white hover:bg-white/90 transition-all duration-300 h-12 relative overflow-hidden"
+          <a
+            href={buildMailtoLink()}
+            className="inline-flex items-center justify-center gap-2 border border-white/30 text-blue-600 bg-white hover:bg-white/90 transition-all duration-300 h-12 px-6 rounded-md shadow-md font-medium"
           >
-            <span className="flex items-center gap-2">
-              Email Us <ArrowRight size={16} />
-            </span>
-          </Button>
+            Email Us <ArrowRight size={16} />
+          </a>
           </div>
 
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-6 text-white/80 text-sm">
