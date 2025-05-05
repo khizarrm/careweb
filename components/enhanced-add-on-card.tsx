@@ -6,11 +6,10 @@ import { Calendar, Star, BarChart3, PlusCircle } from "lucide-react"
 interface EnhancedAddOnCardProps {
   title: string
   description: string
-  price: number
   icon: "Calendar" | "Star" | "BarChart3"
 }
 
-export function EnhancedAddOnCard({ title, description, price, icon }: EnhancedAddOnCardProps) {
+export function EnhancedAddOnCard({ title, description, icon }: EnhancedAddOnCardProps) {
   const [isHovered, setIsHovered] = useState(false)
   const cardRef = useRef<HTMLDivElement>(null)
 
@@ -91,10 +90,6 @@ export function EnhancedAddOnCard({ title, description, price, icon }: EnhancedA
 
       {/* Price tag */}
       <div className="flex items-center justify-between mb-4">
-        <div className="text-blue-600 font-semibold">
-          +${price}
-          <span className="text-slate-500 text-sm font-normal">/month</span>
-        </div>
         <div className="bg-blue-50 text-blue-600 text-xs px-2 py-1 rounded-full">Popular add-on</div>
       </div>
 

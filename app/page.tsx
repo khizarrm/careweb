@@ -127,19 +127,16 @@ export default function Home() {
               <EnhancedAddOnCard
                 title="Booking System"
                 description="Allow patients to book appointments directly through your website with calendar integration."
-                price={25}
                 icon="Calendar"
               />
               <EnhancedAddOnCard
                 title="Reviews Integration"
                 description="Showcase your Google and Yelp reviews directly on your website to build trust with new patients."
-                price={15}
                 icon="Star"
               />
               <EnhancedAddOnCard
                 title="Analytics Dashboard"
                 description="Track website performance, patient engagement, and conversion metrics in real-time."
-                price={20}
                 icon="BarChart3"
               />
             </div>
