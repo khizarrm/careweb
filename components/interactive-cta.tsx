@@ -68,7 +68,7 @@ export function InteractiveCTA() {
 
     body += `\n\nPlease let us know the next steps.`
 
-    return `mailto:khizarmalik2003@gmail.com?subject=${encodeURIComponent(
+    return `mailto:khizar@careweb.ca?subject=${encodeURIComponent(
       subject
     )}&body=${encodeURIComponent(body)}`
   }
