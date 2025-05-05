@@ -114,12 +114,10 @@ export function PackageCard({ title, setupPrice, monthlyPrice, features, recomme
 
       <div className="relative z-10">
         <h3 className="mb-2 font-poppins text-2xl font-bold">{title}</h3>
-        <div className="mb-6">
-          <span className="text-3xl font-bold">${setupPrice}</span>
-          <span className={recommended ? "text-white/80" : "text-slate-600"}> setup</span>
-          <span className="mx-2">·</span>
-          <span className="text-2xl font-bold">${monthlyPrice}</span>
-          <span className={recommended ? "text-white/80" : "text-slate-600"}>/month</span>
+        <div className={`mb-6 ${recommended ? "text-white/80" : "text-slate-600"}`}>
+          {recommended
+            ? "Comes with a setup fee and ongoing support to evolve your site, alongside an AI bot and assistant every month."
+            : "Includes a one-time setup fee and optional monthly updates to keep your site running smoothly."}
         </div>
         <ul className="mb-6 space-y-3">
           {features.map((feature, index) => (
