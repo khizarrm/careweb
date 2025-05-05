@@ -1,21 +1,20 @@
 "use client"
 
-import type React from "react"
-
 import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Send, ArrowRight, Check } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 
 export function InteractiveCTA() {
-  const [email, setEmail] = useState("")
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [selectedPlan, setSelectedPlan] = useState("The Pro Plan")
+  const [selectedAddOns, setSelectedAddOns] = useState<string[]>([])
   const [isHovered, setIsHovered] = useState(false)
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const containerRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-
   const [particles, setParticles] = useState<React.ReactNode[]>([])
+
+  const plans = ["The Pro Plan", "The Standard Plan", "Other"]
+  const addOns = ["Booking System", "Reviews Integration", "Analytics Dashboard"]
 
   useEffect(() => {
     const generated = Array.from({ length: 20 }).map((_, i) => (
@@ -35,20 +34,6 @@ export function InteractiveCTA() {
     setParticles(generated)
   }, [])
 
-
-  // Handle form submission
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (email) {
-      setIsSubmitted(true)
-      setTimeout(() => {
-        setIsSubmitted(false)
-        setEmail("")
-      }, 3000)
-    }
-  }
-
-  // Button hover effect
   useEffect(() => {
     const button = buttonRef.current
     if (!button) return
@@ -57,7 +42,6 @@ export function InteractiveCTA() {
       const rect = button.getBoundingClientRect()
       const x = e.clientX - rect.left
       const y = e.clientY - rect.top
-
       button.style.setProperty("--x", `${x}px`)
       button.style.setProperty("--y", `${y}px`)
     }
@@ -66,17 +50,49 @@ export function InteractiveCTA() {
     return () => button.removeEventListener("mousemove", handleMouseMove)
   }, [])
 
+  const toggleAddOn = (addOn: string) => {
+    setSelectedAddOns((prev) =>
+      prev.includes(addOn) ? prev.filter((a) => a !== addOn) : [...prev, addOn]
+    )
+  }
+
+  const buildMailtoLink = () => {
+    const subject = `Demo Inquiry - ${selectedPlan}`
+    let body = `Hi, we are interested in the ${selectedPlan.toLowerCase()} and would like to request a demo.`
+
+    if (selectedAddOns.length > 0) {
+      body += `\n\nWe're also interested in the following add-ons:\n${selectedAddOns
+        .map((opt) => `- ${opt}`)
+        .join("\n")}`
+    }
+
+    body += `\n\nPlease let us know the next steps.`
+
+    return `mailto:khizarmalik2003@gmail.com?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`
+  }
+
   return (
     <div
       ref={containerRef}
       className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-700 via-blue-600 to-blue-500 p-8 md:p-12 shadow-xl"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onMouseMove={(e) => {
+        const rect = containerRef.current?.getBoundingClientRect()
+        if (rect) {
+          setMousePosition({
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top,
+          })
+        }
+      }}
     >
-      {/* Animated background particles */}
+      {/* Animated particles */}
       {particles}
 
-      {/* Glowing effect that follows mouse */}
+      {/* Glowing blur that follows mouse */}
       <div
         className="absolute bg-white/10 rounded-full blur-3xl transition-all duration-1000"
         style={{
@@ -98,65 +114,60 @@ export function InteractiveCTA() {
             Ready to modernize your clinic?
           </h2>
           <p className="mx-auto mb-8 max-w-2xl text-xl text-white/90 font-montserrat">
-            We'll handle the tech — you focus on care.
+            Select what you're interested in and we'll reach out.
           </p>
         </div>
 
-        <div className="mx-auto max-w-md">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="relative">
-              <Input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="bg-white/10 border-white/20 text-white placeholder:text-white/60 h-12 pr-12"
-                required
-              />
-              <div className="absolute right-3 top-1/2 -translate-y-1/2 text-white/60">
-                <Send size={18} />
-              </div>
+        <div className="mx-auto max-w-md space-y-6 text-white font-montserrat">
+          {/* Plan Dropdown */}
+          <div>
+            <p className="mb-2 text-white/80">I’m interested in a plan:</p>
+            <select
+              value={selectedPlan}
+              onChange={(e) => setSelectedPlan(e.target.value)}
+              className="w-full h-12 rounded-md border border-white/30 bg-white/10 text-white px-4 focus:outline-none focus:ring-2 focus:ring-blue-200"
+            >
+              {plans.map((plan) => (
+                <option key={plan} value={plan}>
+                  {plan}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Add-on Checkboxes */}
+          <div>
+            <p className="mb-2 text-white/80">Optional add-ons:</p>
+            <div className="space-y-2">
+              {addOns.map((addOn) => (
+                <label key={addOn} className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    value={addOn}
+                    checked={selectedAddOns.includes(addOn)}
+                    onChange={() => toggleAddOn(addOn)}
+                    className="h-4 w-4 text-blue-500 bg-blue-500 border-white/30 rounded focus:ring-0"
+                  />
+                  <span>{addOn}</span>
+                </label>
+              ))}
             </div>
+          </div>
 
-            {/* Centered buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                ref={buttonRef}
-                type="submit"
-                className="bg-white text-blue-600 hover:bg-blue-50 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 h-12 relative overflow-hidden"
-              >
-                <span className="relative z-10">Request a Demo</span>
-                <span
-                  className="absolute inset-0 bg-blue-50 rounded-md opacity-0 hover:opacity-100 transition-opacity duration-300"
-                  style={{
-                    background:
-                      "radial-gradient(circle at var(--x) var(--y), rgba(219, 234, 254, 0.4) 0%, transparent 50%)",
-                  }}
-                />
-              </Button>
+          <div className="flex justify-center">
+          <Button
+            ref={buttonRef}
+            variant="outline"
+            onClick={() => window.location.href = buildMailtoLink()}
+            className="border-white/30 text-blue-600 bg-white hover:bg-white/90 transition-all duration-300 h-12 relative overflow-hidden"
+          >
+            <span className="flex items-center gap-2">
+              Email Us <ArrowRight size={16} />
+            </span>
+          </Button>
+          </div>
 
-              <Button
-                asChild
-                variant="outline"
-                className="border-white/30 text-blue-600 hover:bg-white/10 transition-all duration-300 h-12"
-              >
-                <a href="mailto:contact@careweb.com" className="flex items-center gap-2">
-                  Email Us <ArrowRight size={16} />
-                </a>
-              </Button>
-            </div>
-          </form>
-
-          {isSubmitted && (
-            <div className="mt-4 bg-white/10 backdrop-blur-sm rounded-md p-3 flex items-center gap-2 text-white animate-fadeIn">
-              <div className="rounded-full bg-green-500/20 p-1">
-                <Check size={16} />
-              </div>
-              <span>Thank you! We'll be in touch soon.</span>
-            </div>
-          )}
-
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-6 text-white/80 text-sm font-montserrat">
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-6 text-white/80 text-sm">
             <div className="flex items-center gap-2">
               <div className="h-1.5 w-1.5 rounded-full bg-green-400"></div>
               <span>Usually responds within 24 hours</span>

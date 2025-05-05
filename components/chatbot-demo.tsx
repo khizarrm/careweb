@@ -25,6 +25,10 @@ export function ChatbotDemo() {
   const chatContainerRef = useRef<HTMLDivElement>(null)
   const [isFocused, setIsFocused] = useState(false)
 
+  const [messageCount, setMessageCount] = useState(0)
+  const MAX_MESSAGES = 10
+
+
   // Scroll to bottom when messages change
   useEffect(() => {
     chatContainerRef.current?.scrollTo({
@@ -35,7 +39,7 @@ export function ChatbotDemo() {
   
 
   const handleSend = async () => {
-    if (!input.trim()) return
+    if (!input.trim() || isLoading || messageCount >= MAX_MESSAGES) return
   
     const userMessage: Message = { role: "user", content: input }
     setMessages((prev) => [...prev, userMessage])
@@ -77,6 +81,7 @@ export function ChatbotDemo() {
       }
   
       setMessages((prev) => [...prev, reply])
+      setMessageCount((count) => count + 1)
     } catch (err) {
       setMessages((prev) => [
         ...prev,
@@ -177,6 +182,12 @@ export function ChatbotDemo() {
           <div
             className={`flex-1 relative transition-all duration-300 ${isFocused ? "ring-2 ring-blue-400 ring-opacity-50 rounded-md" : ""}`}
           >
+            {messageCount >= MAX_MESSAGES && (
+              <div className="text-sm text-red-500 mb-2 text-center">
+                You've reached the demo limit of {MAX_MESSAGES} messages.
+              </div>
+            )}
+
             <Input
               placeholder="Type your question here..."
               value={input}
