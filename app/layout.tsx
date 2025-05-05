@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter, Poppins } from "next/font/google"
+import { Inter, Poppins, Montserrat } from "next/font/google"
 import "./globals.css"
 
 const inter = Inter({
@@ -13,6 +13,13 @@ const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-poppins",
+  display: "swap",
+})
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-montserrat",
   display: "swap",
 })
 
@@ -30,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${inter.variable} ${poppins.variable} font-sans`}>{children}</body>
+      <body className={`${inter.variable} ${poppins.variable} ${montserrat.variable} font-sans`}>{children}</body>
     </html>
   )
 }

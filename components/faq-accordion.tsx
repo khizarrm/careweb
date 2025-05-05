@@ -34,11 +34,16 @@ export function FaqAccordion() {
   return (
     <Accordion type="single" collapsible className="w-full">
       {faqItems.map((item, index) => (
-        <AccordionItem key={index} value={`item-${index}`}>
-          <AccordionTrigger className="text-left font-poppins text-lg font-medium text-slate-800">
+        <AccordionItem key={index} value={`item-${index}`} className="border-blue-100 overflow-hidden">
+          <AccordionTrigger className="text-left font-poppins text-lg font-medium text-slate-800 hover:text-blue-600 transition-all duration-300">
             {item.question}
           </AccordionTrigger>
-          <AccordionContent className="text-slate-600">{item.answer}</AccordionContent>
+          <AccordionContent
+            className="text-slate-600 data-[state=open]:animate-fadeIn"
+            style={{ animationDuration: "0.5s" }}
+          >
+            {item.answer}
+          </AccordionContent>
         </AccordionItem>
       ))}
     </Accordion>
