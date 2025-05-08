@@ -48,7 +48,7 @@ export function Navbar() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className={`font-medium transition-colors hover:text-blue-500 ${
+                    className={`font-montserrat transition-colors hover:text-blue-500 ${
                       isScrolled ? "text-slate-800" : "text-white"
                     }`}
                   >
